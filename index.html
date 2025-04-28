@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fuel Charging Stations</title>
+
+        <!--Aqui Enlaces a Flaticon-->
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+       
+        <!--Aqui Enlace al CSS-->
+        <link rel="stylesheet" href="style.css">
+
+        <!--Aqui Enlaces Leaflet CSS-->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        
+        
+    
+    </head>
+    <body>
+
+        <!--ENCABEZADO-->
+        <header class="hero">
+            <div class="barra-superior">
+                <div class="contenedor-logo-texto">
+                    <img src="img/logo-universidad.png" alt="Logo Universidad" class="logo-universidad">
+                    <h2>Universidad Central del Ecuador</h2>
+                </div>
+                <nav class="menu-superior">
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#estadistica">Estadística</a></li>
+                        <li><a href="#variables">Variables</a></li>
+                        <li><a href="resultados.html">Resultados</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="contenido-hero">
+                <h1 class="titulo-proyecto">Descarbonización del Transporte en EE. UU. y Canadá: Infraestructura de Carga Sostenible y Equitativa para 2035.</h1>
+                <p class="subtitulo">Diseño | Desarrollo | Exito</p>
+            </div>
+        </header>
+
+        <!--MENU DE NAVEGACIÓN-->
+            <nav class="menu-principal">
+                <div class="menu-contenido">
+                    <ul class="menu-izquierda">
+                        <li><a href="#introduccion">Introducción</a></li>
+                        <li><a href="#planteamiento">Planteamiento del Problema</a></li>                       
+                    </ul>
+                    <div class="logo-facultad">
+                        <img src="img/logo-facultad.jpg" alt="Logo Facultad">
+                    </div>
+                    <ul class="menu-derecha">
+                        <li><a href="#mapa">Mapa de Ubicación</a></li>
+                        <li><a href="#objetivos">Objetivos</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+        <!--INTRODUCCIÓN-->
+            <section id="introduccion" class="seccion">
+                <h2>Introducción</h2>
+                <p>El rápido avance de la electromovilidad en EEUU y Canada hasta 2035, revela brechas de acceso, planificación y estabilidad en la infraestructura de carga debido al aumento de EVs.</p>
+            </section>
+
+
+        <!--Planteamiento del Problema-->
+            <section id="planteamiento" class="seccion">
+                <h2>Planteamiento del Problema</h2>
+                <p>¿Cómo pueden las principales ciudades de EE. UU. y Canadá desarrollar una red de estaciones de carga para vehículos eléctricos y combustibles alternativos que sea equitativa, resiliente, sostenible y económicamente viable, considerando la demanda proyectada al año 2035 y las limitaciones de infraestructura urbana y energética existentes?</p>
+            </section>
+
+        <!--Mapa de Ubicación Geográfica-->
+            <section id="mapa" class="seccion" >
+                <h2>Ubicación Geográfica</h2>
+                <div id="map"></div> <!--Aqui ira el mapa interactivo-->
+            </section>
+
+         <!--Script del mapa de Qgis-->
+                <script>
+                    var map = L.map('map', {
+                        zoomControl:false, maxZoom:28, minZoom:1
+                    }).fitBounds([[-71.16237960270462,-111.87318807858836],[81.09731279127186,31.789593863146003]]);
+                    var hash = new L.Hash(map);
+                    map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+                    var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+                    // remove popup's row if "visible-with-data"
+                    function removeEmptyRowsFromPopupContent(content, feature) {
+                        var tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = content;
+                        var rows = tempDiv.querySelectorAll('tr');
+                        for (var i = 0; i < rows.length; i++) {
+                            var td = rows[i].querySelector('td.visible-with-data');
+                            var key = td ? td.id : '';
+                            if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                                rows[i].parentNode.removeChild(rows[i]);
+                            }
+                        }
+                        return tempDiv.innerHTML;
+                    }
+                    // add class to format popup if it contains media
+                    function addClassToPopupIfMedia(content, popup) {
+                        var tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = content;
+                        if (tempDiv.querySelector('td img')) {
+                            popup._contentNode.classList.add('media');
+                            setTimeout(function() {
+                                popup.update();
+                            }, 10);
+                        } else {
+                            popup._contentNode.classList.remove('media');
+                        }
+                    }
+                    var zoomControl = L.control.zoom({
+                        position: 'topleft'
+                    }).addTo(map);
+                    var bounds_group = new L.featureGroup([]);
+                    function setBounds() {
+                    }
+                    </script>
+                
+                <!-- Cierra el body -->
+
+        <!--Objetivos-->
+            <section id="objetivos" class="seccion">
+                <h2>Objetivos</h2>
+                <div class="objetivos-contenido">
+                    <div class="objetivo">
+                        <img src="img/objetivo-general.svg" alt="Icono Meta" class="icono-objetivo">
+                        <h3>Objetivo General</h3>
+                        <p>Analizar las brechas de acceso a la expansión de la electromovilidad y combustibles alternativos en zonas suburbanas hacia un transporte descarbonización al 2035.</p>
+                    </div>
+                    <div class="objetivo">
+                        <img src="img/objetivo-especifico-1.svg" alt="Icono Carga" class="icono-objetivo">
+                        <h3>Objetivo Específico 1</h3>
+                        <p>Identificar y clasificar las estaciones activas en EE.UU. y Canadá que ofrecen al menos un tipo de combustible alternativo.</p>
+                    </div>
+                    <div class="objetivo">
+                        <img src="img/objetivo-especifico-2.svg" alt="Icono Renovable" class="icono-objetivo">
+                        <h3>Objetivo Específico 2</h3>
+                        <p>Analizar la distribución y disponibilidad de las estaciones según el tipo de combustible que suministran, considerando electricidad, hidrógeno, CNG, LNG, propano, biodiésel y etanol (E85).</p>
+                    </div>
+                    <div class="objetivo">
+                        <img src="img/objetivo-especifico-3.svg" alt="Icono Equidad" class="icono-objetivo">
+                        <h3>Objetivo Específico 3</h3>
+                        <p>Evaluar la cobertura y accesibilidad de estas estaciones de carga en la región, con el fin de entender su aporte a la movilidad sostenible y la transición energética.</p>
+                    </div>
+                </div>
+            </section>
+        <!--Este cierra la sección de objetos-->
+
+        <!--Aquí Enlaces a JS de Qgis2web-->
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+
+        <!--Aquí Scripts de datos capas geojson-->
+        <script src="data/StateDensityEEUU_1.js"></script>
+        <script src="data/StateDensityCanada_2.js"></script>
+        <script src="data/ElectricAlternativeFuelChargingStations2023_REV_1_3.js"></script>
+
+    </body>
+</html>
